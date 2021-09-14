@@ -32,7 +32,10 @@ class HomeScreen extends React.Component {
             loginStatus: false,
             loading: true,
             chartname: null,
-            USD_data: {}
+            USD_data: {},
+            EUR_data:{},
+            GBP_data:{}
+
         }
     }
 
@@ -42,6 +45,7 @@ class HomeScreen extends React.Component {
         const { route } = this.props
         const USERNAME = route.params.user
         const PASSWORD = route.params.pass
+        
 
         this.setState({
             userName: USERNAME,
@@ -54,22 +58,32 @@ class HomeScreen extends React.Component {
 
             .then(async (response) => {
 
+                
+
                 const data = await response.json()
-                const USD = await data.bpi.USD
+                const USD =  data.bpi.USD
+                const EUR =  data.bpi.EUR
+                const GBP =  data.bpi.GBP
 
                 await this.setState({
                     chartname: data.chartName,
                     USD_data: USD,
+                    EUR_data: EUR,
+                    GBP_data: GBP,
                     loading: true,
                     
                 })
+                // console.log("API Response: " + JSON.stringify(response))
+                console.log("GBP data: " + JSON.stringify(GBP))
 
             })
+
+            
 
             .catch(error => console.log("Error from fetch : " + error))
 
 
-         this.successResponse()
+         //this.successResponse()
     }
 
     successResponse = () => {
@@ -126,9 +140,9 @@ class HomeScreen extends React.Component {
                         <Text style={{ fontSize: 20 }}>Home</Text>
                     </View>
 
-                    <View style={{ height: '100%', width: '20%', justifyContent: 'center', alignItems: 'center', }} >
+                     <View style={{ height: '100%', width: '20%', justifyContent: 'center', alignItems: 'center', }} >
                         <Text>{this.state.userName} - {this.state.password}</Text>
-                    </View>
+                    </View> 
 
                 </View>
 
@@ -136,62 +150,62 @@ class HomeScreen extends React.Component {
 
                     {/* <ActivityIndicator size='large' color='red' animating={this.state.loading} /> */}
                     
-                    <Text>{this.state.chartname}</Text>
-                    <Text>{this.state.USD_data.code}</Text>
+                    <Text>Bitcoin by COINDESK</Text>
+                    
 
-                    <View style={{ height: '90%', width: '85%', flexDirection: 'row', backgroundColor: 'black' }}>
+                    <View style={{ height: '90%', width: '85%', flexDirection: 'row'}}>
 
-                        <View style={{ width: '33%', flexDirection: 'column', backgroundColor: 'red' }}>
-                            <View style={{ width: '100%', height: '20%', backgroundColor: 'yellow' }}>
-                                <Text>Title1</Text>
+                        <View style={{ width: '33%', flexDirection: 'column' }}>
+                            <View style={{ width: '100%', height: '20%' }}>
+                            <Text>{this.state.USD_data.code}</Text>
                             </View>
                             <View style={{ width: '100%', height: '20%', borderBottomWidth: 1, borderColor: 'black'}}>
-                                <Text>Symbol</Text>
+                                <Text>{this.state.USD_data.symbol}</Text>
                             </View>
                             <View style={{ width: '100%', height: '20%', borderBottomWidth: 1, borderColor: 'black' }}>
-                                <Text>Rate</Text>
+                                <Text>{this.state.USD_data.rate}</Text>
                             </View>
                             <View style={{ width: '100%', height: '20%', borderBottomWidth: 1, borderColor: 'black' }}>
-                                <Text>Desc</Text>
+                                <Text>{this.state.USD_data.description}</Text>
                             </View>
                             <View style={{ width: '100%', height: '20%', borderBottomWidth: 1, borderColor: 'black' }}>
-                                <Text>Rate_float</Text>
+                                <Text>{this.state.USD_data.rate_float}</Text>
                             </View>
                         </View>
 
-                        <View style={{ width: '33%', flexDirection: 'column', backgroundColor: 'green' }}>
-                            <View style={{ width: '100%', height: '20%', backgroundColor: 'yellow' }}>
-                                <Text>Title2</Text>
+                        <View style={{ width: '33%', flexDirection: 'column'}}>
+                            <View style={{ width: '100%', height: '20%'}}>
+                                <Text>{this.state.EUR_data.code}</Text>
                             </View>
                             <View style={{ width: '100%', height: '20%', borderBottomWidth: 1, borderColor: 'black' }}>
-                                <Text>Symbol</Text>
+                                <Text>{this.state.EUR_data.symbol}</Text>
                             </View>
                             <View style={{ width: '100%', height: '20%', borderBottomWidth: 1, borderColor: 'black' }}>
-                                <Text>Rate</Text>
+                                <Text>{this.state.EUR_data.rate}</Text>
                             </View>
                             <View style={{ width: '100%', height: '20%', borderBottomWidth: 1, borderColor: 'black' }}>
-                                <Text>Desc</Text>
+                                <Text>{this.state.EUR_data.description}</Text>
                             </View>
                             <View style={{ width: '100%', height: '20%', borderBottomWidth: 1, borderColor: 'black' }}>
-                                <Text>Rate_float</Text>
+                                <Text>{this.state.EUR_data.rate_float}</Text>
                             </View>
                         </View>
 
-                        <View style={{ width: '33%', flexDirection: 'column', backgroundColor: 'blue' }}>
-                            <View style={{ width: '100%', height: '20%', backgroundColor: 'yellow' }}>
-                                <Text>Title3</Text>
+                        <View style={{ width: '33%', flexDirection: 'column' }}>
+                            <View style={{ width: '100%', height: '20%'}}>
+                                <Text>{this.state.GBP_data.code}</Text>
                             </View>
                             <View style={{ width: '100%', height: '20%', borderBottomWidth: 1, borderColor: 'black' }}>
-                                <Text>Symbol</Text>
+                                <Text>{this.state.GBP_data.symbol}</Text>
                             </View>
                             <View style={{ width: '100%', height: '20%', borderBottomWidth: 1, borderColor: 'black' }}>
-                                <Text>Rate</Text>
+                                <Text>{this.state.GBP_data.rate}</Text>
                             </View>
                             <View style={{ width: '100%', height: '20%', borderBottomWidth: 1, borderColor: 'black' }}>
-                                <Text>Desc</Text>
+                                <Text>{this.state.GBP_data.description}</Text>
                             </View>
                             <View style={{ width: '100%', height: '20%', borderBottomWidth: 1, borderColor: 'black' }}>
-                                <Text>Rate_float</Text>
+                                <Text>{this.state.GBP_data.rate_float}</Text>
                             </View>
                         </View>
                     </View>
