@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Image, KeyboardAvoidingView, SafeAreaView, Text, TextInput, TouchableHighlight, View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import HomeScreen from './HomeScreen';
 
 
 class Login extends React.Component {
@@ -14,7 +15,7 @@ class Login extends React.Component {
             loginStatus: false,
             loading: true,
             chartname: null,
-            USD_data: {}
+            // USD_data: {}
         }
     }
     
@@ -52,7 +53,7 @@ class Login extends React.Component {
         if (this.state.userName.length > 0) {
 
             this.setState({ loginStatus: true, loading: false }, () => { console.log("\n\nLogin Status state changed to True ") })
-            this.props.navigation.navigate('Home', { user: this.state.userName, pass: this.state.password })
+            this.props.navigation.navigate('HomeNav', {screen:'Home' , params: {user: this.state.userName, pass: this.state.password }})
         }
         else
             this.setState({ loginStatus: false }, () => { console.log("\n\nLogin Status state changed to False ") })
