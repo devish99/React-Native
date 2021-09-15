@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Image, KeyboardAvoidingView, SafeAreaView, Text, TextInput, TouchableHighlight, View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { Button, Image, KeyboardAvoidingView,  SafeAreaView, Text, TextInput, TouchableHighlight, View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import HomeScreen from './HomeScreen';
 
@@ -92,22 +92,7 @@ class Login extends React.Component {
 
                 <View style={styles.mainLoginContainer}>
 
-                    {/* <ActivityIndicator size='large' color='red' animating={this.state.loading} /> */}
-
-
-                    {/* <FlatList
-                    data={DATA}
-                    renderItem={({ item }) => <Text>{item.title}</Text>}
-                    keyExtractor={item => item.id}
-                    ItemSeparatorComponent={this.renderSeparator}
-                  // style={{ height: '50%', borderColor: 'black', borderWidth: 2 }}
-                  />
-                    */}
-                    {/* <View style={styles.logoContainer}>
-                        <Image
-                            style={styles.logoImage} resizeMode='contain'
-                            source={require('../assets/download.png')} />
-                    </View> */}
+                    
 
                     <View style={{ flex: 8, maxHeight: '50%', width: '80%', backgroundColor: 'lightgrey', borderColor: 'grey', borderRadius: 10, borderWidth: 2, justifyContent: 'space-evenly', alignItems: 'center' }}>
                         <TextInput
