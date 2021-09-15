@@ -1,10 +1,27 @@
 import React from 'react';
-import { Button, Image, KeyboardAvoidingView,  SafeAreaView, Text, TextInput, TouchableHighlight, View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { Button, Alert, Image, KeyboardAvoidingView,  SafeAreaView, Text, TextInput, TouchableHighlight, View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import HomeScreen from './HomeScreen';
+
+
+// const DATA = [
+//     {
+//         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+//         title: 'First Item',
+//     },
+//     {
+//         id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+//         title: 'Second Item',
+//     },
+//     {
+//         id: '58694a0f-3da1-471f-bd96-145571e29d72',
+//         title: 'Third Item',
+//     },
+// ];
 
 
 class Login extends React.Component {
+    
+    
     constructor(props) {
 
         super(props)
@@ -12,37 +29,83 @@ class Login extends React.Component {
         this.state = {
             userName: '',
             password: '',
+            mobileNo:'',
+            txnID:'3fa85f64-5717-4562-b3fc-2c963f66afa6',
+            OTP: '',
             loginStatus: false,
             loading: true,
-            chartname: null,
-            // USD_data: {}
+            chartname: null
+            
+           
         }
     }
-    
+    // async componentDidMount() {
+    //     // POST request using fetch with async/await
+    //     // const requestOptions = {
+    //     //     method: 'POST',
+    //     //     headers: { 'Content-Type': 'application/json' },
+    //     //     body: JSON.stringify({ title: 'React POST Request Example' })
+    //     // };
+    //     const response = await fetch('https://reqres.in/api/posts', requestOptions);
+    //     const data = await response.json();
+    //     this.setState({ postId: data.id });  
+    // }
 
-    componentDidMount = async () => {
-        console.log("\n\nLogin Screen component Did mount called")
+    async generateOTP () {
+        
+        
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'x-api-key' : '3sjOr2rmM52GzhpMHjDEE1kpQeRxwFDr4YcBEimi', 'Content-Type': 'application/json' },
+            body: JSON.stringify({ mobile: this.state.mobileNo})
+            
+        };
 
-        fetch('https://api.coindesk.com/v1/bpi/currentprice.json', { method: 'GET' })
+        const response = await fetch('https://cdn-api.co-vin.in/api/v2/auth/public/generateOTP', requestOptions);
+        const data = await response.json();
+        console.log("API Response: " + JSON.stringify(requestOptions.body))
+        this.setState({ 
+            
+            OTP: data.txnID
+        
+        })
+        console.log("API Response: " + JSON.stringify(this.state.mobileNo))
+        console.log("API Response: " + (this.state.txnID))
 
-            .then(async (response) => {
+        
+            
 
-                const data = await response.json()
-                const USD = await data.bpi.USD
+        } 
+        // console.log("\n\nLogin Screen component Did mount called")
+            
+        //     .then(async (response) => {
+        //         console.log("works" )
 
-                await this.setState({
-                    chartname: data.chartName,
-                    USD_data: USD,
-                    loading: true
-                })
+        //         const data = await response.json()
 
-            })
+        //         console.log("API Response: " + JSON.stringify(response))
+                
+        //         this.setState({ 
+                    
+        //             txnID: data.id
+        //         })
 
-            .catch(error => console.log("Error from fetch : " + error))
+        //         console.log("API Response: " + this.state.txnID)
+
+        //         if (this.state.txnID.length > 10)
+        //         this.loginCheck()
+
+        //         else
+        //         Alert.alert()
+
+
+        //     })
+
+           // .catch(error => console.log("Error from fetch : " + error))
 
 
         // this.successResponse()
-    }
+    
 
     successResponse = () => {
         setTimeout(() => this.setState({ loading: false }), 5000)
@@ -111,9 +174,15 @@ class Login extends React.Component {
                             secureTextEntry={true}
                         />
 
+                        <TextInput
+                            placeholder='Enter Mobile Number'
+                            onChangeText={(text) => { this.setState({ mobileNo: text }) }}
+                            style={{ height: '20%', width: '80%', backgroundColor: 'white', borderRadius: 5, borderWidth: 2, borderColor: 'grey' }}
+                        />
+
                         <TouchableHighlight
                             style={{ height: '20%', width: '80%', backgroundColor: 'orange', borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}
-                            onPress={() => { this.loginCheck() }}
+                            onPress={() => {this.generateOTP(),this.loginCheck()}}
 
                         >
                             <Text style={{ fontSize: 20 }}>Login</Text> 
