@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Image, KeyboardAvoidingView, SafeAreaView, Text, TextInput, TouchableHighlight, View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { Button, Alert, Image, KeyboardAvoidingView, SafeAreaView, Text, TextInput, TouchableHighlight, View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
@@ -74,7 +74,7 @@ class HomeScreen extends React.Component {
                     
                 })
                 // console.log("API Response: " + JSON.stringify(response))
-                console.log("GBP data: " + JSON.stringify(GBP))
+                console.log("GBP data: " + JSON.stringify(USD))
 
             })
 
@@ -118,6 +118,19 @@ class HomeScreen extends React.Component {
         );
     };
 
+    createLogoutBox = () =>
+    Alert.alert(
+      "Do you want to Logout?",
+      "",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => this.props.navigation.navigate('Login')}
+      ]
+    );
+
     render() {
 
         return (
@@ -132,7 +145,7 @@ class HomeScreen extends React.Component {
                     <TouchableHighlight
                         underlayColor='lightblue'
                         style={{ height: '100%', width: '20%', justifyContent: 'center', alignItems: 'center', }}
-                        onPress={() => { this.props.navigation.navigate('Login') }}>
+                        onPress={this.createLogoutBox}>
                         <Text>Back</Text>
                     </TouchableHighlight>
 
