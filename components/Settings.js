@@ -1,9 +1,9 @@
 import React, {useEffect, useState, Component} from "react";
-import { Alert, Button, Modal, PermissionsAndroid, Image, KeyboardAvoidingView, SafeAreaView, Text, TextInput, TouchableHighlight, View, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Alert, Button, Modal, PermissionsAndroid, KeyboardAvoidingView, ToastAndroid, SafeAreaView, Text, TextInput, TouchableHighlight, View, StyleSheet, TouchableOpacity } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import DocumentPicker from 'react-native-document-picker';
 import {check, PERMISSIONS, permission, rationale, PermissionStatus, Promise, RESULTS} from 'react-native-permissions';
-// import Modal from "react-native-modal";
+
 
 
 
@@ -11,7 +11,6 @@ class Settings extends Component {
    
 
   constructor(props) {
-    
 
     super(props)
 
@@ -29,26 +28,23 @@ class Settings extends Component {
 
         const brand = DeviceInfo.getBrand()
         const deviceId = DeviceInfo.getDeviceId()
-        
-
-        // console.log(brand)
-        // console.log(deviceId)  
-      
-        
-      //Alert.alert("Brand of device: " + brand + "\nDevice ID: "+ deviceId)
-
 
 
         this.setState({
             brand: brand,
             deviceId: deviceId,
             
-
-
         })
 
     }
 
+    showPositiveToast = () => {
+      ToastAndroid.show("Access Granted!", ToastAndroid.SHORT);
+    };
+
+    showNegativeToast = () => {
+      ToastAndroid.show("Access Denied!", ToastAndroid.SHORT);
+    };
 
     createDocumentPicker = async () =>{
 
@@ -87,6 +83,43 @@ try {
       ]
     );
    
+      createPermission = async () => {
+        Alert.alert(
+          "This app wants to access your camera.",
+          "",
+          [
+            {
+              text: "Cancel",
+              style: "cancel",
+              onPress: () => {this.showNegativeToast()}
+            },
+            { text: "Grant Access", onPress: () => {this.requestPermission(), this.showPositiveToast()}}
+          ]
+        );
+
+
+      }
+
+    requestPermission = async () => {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log("You can use the camera");
+          
+          
+        } else {
+          console.log("Camera permission denied");
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    };
+
+    
+
+
+
   
     render() {
       const { modalVisible } = this.state;
@@ -111,7 +144,7 @@ try {
         <View style={styles.container}>
             <Button title={"Device Details"} onPress={() => this.setModalVisible(!modalVisible)} />
              <Button title={"Browse Files"} onPress={this.createDocumentPicker} />
-             <Button title={"Permissions"}  />
+             <Button title={"Permissions"} onPress={this.createPermission}  />
 
              
              <Modal
@@ -126,7 +159,7 @@ try {
           width:"100%",
           marginRight: 50,
           marginBottom: 100,
-          backgroundColor: 'rgba(0,0,0,0.5)'}}>
+          backgroundColor: 'rgba(0,0,0,0.6)'}}>
                     
          
 
@@ -134,8 +167,6 @@ try {
           <Button title={"Close"}  onPress={() => this.setModalVisible(!modalVisible)} />
           <Text >Brand of device: {this.state.brand}</Text>
           <Text >Device ID: {this.state.deviceId}</Text>
-            
-            
             
              </View>
              
