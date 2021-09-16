@@ -31,7 +31,6 @@ class Login extends React.Component {
             password: '',
             mobileNo:'',
             txnID:'3fa85f64-5717-4562-b3fc-2c963f66afa6',
-            OTP: '',
             loginStatus: false,
             loading: true,
             chartname: null
@@ -56,19 +55,19 @@ class Login extends React.Component {
         
         const requestOptions = {
             method: 'POST',
-            headers: { 'x-api-key' : '3sjOr2rmM52GzhpMHjDEE1kpQeRxwFDr4YcBEimi', 'Content-Type': 'application/json' },
+             headers: { 'x-api-key' : '3sjOr2rmM52GzhpMHjDEE1kpQeRxwFDr4YcBEimi', 'Content-Type': 'application/json' },
             body: JSON.stringify({ mobile: this.state.mobileNo})
             
         };
 
         const response = await fetch('https://cdn-api.co-vin.in/api/v2/auth/public/generateOTP', requestOptions);
         const data = await response.json();
-        console.log("API Response: " + JSON.stringify(requestOptions.body))
-        this.setState({ 
+        //console.log("API Response: " + JSON.stringify(requestOptions.body))
+        // this.setState({ 
             
-            OTP: data.txnID
+        //     OTP: data.txnID
         
-        })
+        // })
         console.log("API Response: " + JSON.stringify(this.state.mobileNo))
         console.log("API Response: " + (this.state.txnID))
 
